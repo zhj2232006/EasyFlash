@@ -4,9 +4,7 @@
 
 ## 1、简介
 
-通过 `app\src\app.c` 的 `test_env()` 方法来演示环境变量的读取及修改功能，每次系统启动并且初始化EasyFlash成功后会调用该方法。
-
-在 `test_env()` 方法中，会先读取系统的启动次数，读取后对启动次数加一，再存入到环境变量中，实现记录系统启动（开机）次数的功能。
+在app中通过ymodem将固件下载到app备份区域，然后写入环境变量:iap_need_copy_app和iap_copy_app_size,non_os demo作为bootloader,在`main()`函数中判断是否需要复制新的固件数据。
 
 ### 1.1、使用方法
 

@@ -76,7 +76,7 @@ static void NVIC_Configuration(void)
 static void GPIO_Configuration(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
-
+#if 0
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -106,6 +106,7 @@ static void GPIO_Configuration(void)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
+#endif
 }
 
 /*******************************************************************************
@@ -175,7 +176,7 @@ void assert_failed(u8* file, u32 line)
     /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
     /* Infinite loop */
-    printf("assert failed at %s:%d \n", file, line);
+    EF_DEBUG("assert failed at %s:%d \n", file, line);
     while (1) {
     }
 }
@@ -212,7 +213,7 @@ void  BSP_Init (void)
 {
     RCC_Configuration();
     NVIC_Configuration();
-    USART1_Configuration();
+    //USART1_Configuration();
     GPIO_Configuration();
 //TODO  Now temporary comment this code, the official version will open his
 //     IWDG_Configuration();

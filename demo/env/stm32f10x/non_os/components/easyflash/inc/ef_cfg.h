@@ -77,13 +77,13 @@
  */
 
 /* backup area start address */
-#define EF_START_ADDR                  (FLASH_BASE + 100 * 1024) /* from the chip position: 100KB */
+#define EF_START_ADDR                  (FLASH_BASE + 70 * PAGE_SIZE) /* from the chip position: 100KB */
 /* ENV area size. It's at least one empty sector for GC. So it's definination must more then or equal 2 flash sector size. */
-#define ENV_AREA_SIZE                  (2 * EF_ERASE_MIN_SIZE)      /* 8K */
+#define ENV_AREA_SIZE                  (4 * PAGE_SIZE)      /* 4K */
 /* saved log area size */
 /* #define LOG_AREA_SIZE             (10 * EF_ERASE_MIN_SIZE)*/      /* 20K */
 
 /* print debug information of flash */
-#define PRINT_DEBUG
+// #define PRINT_DEBUG
 
 #endif /* EF_CFG_H_ */

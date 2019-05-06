@@ -83,6 +83,11 @@ static enum rym_code ymodem_on_data(struct rym_ctx *ctx, rt_uint8_t *buf, rt_siz
     return RYM_CODE_ACK;
 }
 
+static uint32_t iap_get_app_addr()
+{
+    return 0x08005000;
+}
+
 /**
  * update command for RT-Thread finsh-msh command.
  */
@@ -90,12 +95,19 @@ void update(uint8_t argc, char **argv) {
     uint16_t size;
     char *recv_buff, c_file_size[11] = {0};
     struct rym_ctx rctx;
+    rt_err_t errcode = 0;
 
     rt_kprintf("Please select a update file and use Ymodem to send.\r\n");
 
-    if (!rym_recv_on_device(&rctx, serial_get_device(),
-            RT_DEVICE_OFLAG_RDWR | RT_DEVICE_FLAG_INT_RX, ymodem_on_begin, ymodem_on_data, NULL,
-            RT_TICK_PER_SECOND)) {
+    errcode = rym_recv_on_device(&rctx, 
+            rt_console_get_device(),
+            RT_DEVICE_OFLAG_RDWR | RT_DEVICE_FLAG_INT_RX, 
+            ymodem_on_begin, 
+            ymodem_on_data, 
+            NULL,
+            30);
+
+    if (!errcode) {
         /* wait some time for terminal response finish */
         rt_thread_delay(RT_TICK_PER_SECOND);
         /* set need copy application from backup section flag is 1, backup application length */
@@ -103,6 +115,8 @@ void update(uint8_t argc, char **argv) {
         rt_sprintf(c_file_size, "%ld", update_file_total_size);
         ef_set_env("iap_copy_app_size", c_file_size);
         ef_save_env();
+        rt_kprintf("Upload user app OK.\n");
+#ifdef BOOTLOADER
         /* copy downloaded application to application entry */
         if (ef_erase_user_app(iap_get_app_addr(), update_file_total_size)
                 || ef_copy_app_from_bak(iap_get_app_addr(), update_file_total_size)) {
@@ -114,10 +128,11 @@ void update(uint8_t argc, char **argv) {
         ef_set_env("iap_need_copy_app", "0");
         ef_set_env("iap_copy_app_size", "0");
         ef_save_env();
+#endif
     } else {
         /* wait some time for terminal response finish */
         rt_thread_delay(RT_TICK_PER_SECOND);
-        rt_kprintf("Update user app fail.\n");
+        rt_kprintf("Update user app fail %#x.\n", errcode);
     }
 }
 MSH_CMD_EXPORT(update, Update user application);

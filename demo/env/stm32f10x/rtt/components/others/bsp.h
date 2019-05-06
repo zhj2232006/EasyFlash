@@ -46,17 +46,19 @@
 
 // <o> Internal SRAM memory size[Kbytes] <8-64>
 //	<i>Default: 64
-#define STM32_SRAM_SIZE         64
+#define STM32_SRAM_SIZE         20
 #define STM32_SRAM_END          (SRAM_BASE + STM32_SRAM_SIZE * 1024)
 
-#define VECT_TAB_FLASH                                     /* use Flash to store vector table */
+//#define VECT_TAB_FLASH                                     /* use Flash to store vector table */
+#define VECT_TAB_USER
+#define USER_VECTOR_TABLE 0x4000
 
 /* RT_USING_UART */
 #define RT_USING_UART1
 #define RT_UART_RX_BUFFER_SIZE	64
 
-#define LED_RUN_ON              GPIO_SetBits  (GPIOA,GPIO_Pin_10)  	   //RUN
-#define LED_RUN_OFF             GPIO_ResetBits(GPIOA,GPIO_Pin_10) 	   //RUN
+#define LED_RUN_ON              GPIO_SetBits  (GPIOA,GPIO_Pin_15)  	   //RUN
+#define LED_RUN_OFF             GPIO_ResetBits(GPIOA,GPIO_Pin_15) 	   //RUN
 
 /*********************************************************************************************************/
 /**                                                 MACRO'S												 */

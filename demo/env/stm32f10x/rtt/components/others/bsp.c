@@ -41,11 +41,11 @@ static void RCC_Configuration(void)
 {
     //下面是给各模块开启时钟
     //启动GPIO
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA/* | RCC_APB2Periph_GPIOB | \
                            RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD | \
-                           RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOG,
+                           RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOG*/,
                            ENABLE);
-
+#if 0
     //启动AFIO
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
     //启动USART1时钟
@@ -58,6 +58,7 @@ static void RCC_Configuration(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
     /* Enable WWDG clock */
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_WWDG, ENABLE);
+#endif
 }
 
 /**
@@ -83,25 +84,27 @@ static void NVIC_Configuration(void)
 static void GPIO_Configuration(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
-
+#if 0
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
+
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIO_Init(GPIOD, &GPIO_InitStructure);
     GPIO_Init(GPIOE, &GPIO_InitStructure);
     GPIO_Init(GPIOF, &GPIO_InitStructure);
     GPIO_Init(GPIOG, &GPIO_InitStructure);
-
+#endif
 
 
     /******************system run led*******************/
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_ResetBits(GPIOA,GPIO_Pin_15);
 }
 
 

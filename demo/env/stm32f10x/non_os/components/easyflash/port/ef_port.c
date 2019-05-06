@@ -203,6 +203,7 @@ void ef_log_debug(const char *file, const long line, const char *format, ...) {
  * @param ... args
  */
 void ef_log_info(const char *format, ...) {
+#ifdef PRINT_DEBUG
     va_list args;
 
     /* args point to the first variable parameter */
@@ -213,6 +214,7 @@ void ef_log_info(const char *format, ...) {
     ef_print("%s", log_buf);
     printf("\r");
     va_end(args);
+#endif
 }
 /**
  * This function is print flash non-package info.
@@ -221,6 +223,7 @@ void ef_log_info(const char *format, ...) {
  * @param ... args
  */
 void ef_print(const char *format, ...) {
+#ifdef PRINT_DEBUG
     va_list args;
 
     /* args point to the first variable parameter */
@@ -229,4 +232,5 @@ void ef_print(const char *format, ...) {
     vsprintf(log_buf, format, args);
     printf("%s", log_buf);
     va_end(args);
+#endif
 }
